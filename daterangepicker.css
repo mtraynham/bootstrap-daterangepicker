@@ -198,6 +198,11 @@
       background-color: #08c;
       border: 1px solid #08c;
       color: #fff; }
+    .ranges li.disabled, .ranges li.disabled:hover {
+      background-color: #f5f5f5;
+      border: 1px solid #f5f5f5;
+      color: #bbb;
+      cursor: default; }
 
 /*  Larger Screen Styling */
 @media (min-width: 564px) {
@@ -258,6 +263,7 @@
       .daterangepicker.rtl .ranges, .daterangepicker.rtl .calendar {
         text-align: right;
         float: right; } }
+
 @media (min-width: 730px) {
   .daterangepicker .ranges {
     width: auto; }
@@ -267,3 +273,4 @@
     float: right; }
   .daterangepicker .calendar.left {
     clear: none !important; } }
+

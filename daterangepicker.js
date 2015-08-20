@@ -49,6 +49,8 @@
         this.linkedCalendars = true;
         this.autoUpdateInput = true;
         this.alwaysShowCalendars = false;
+        this.showDisabled = false;
+        this.disabledRanges = [];
         this.ranges = {};
 
         this.opens = 'right';
@@ -267,6 +269,12 @@
         if (typeof options.alwaysShowCalendars === 'boolean')
             this.alwaysShowCalendars = options.alwaysShowCalendars;
 
+        if (typeof options.showDisabled === 'boolean')
+            this.showDisabled = options.showDisabled;
+
+        if (typeof options.disabledRanges === 'object')
+            this.disabledRanges = options.disabledRanges.slice();
+
         // update day names order to firstDay
         if (this.locale.firstDay != 0) {
             var iterator = this.locale.firstDay;
@@ -326,9 +334,14 @@
 
                 // If the end of the range is before the minimum or the start of the range is
                 // after the maximum, don't display this range option at all.
-                if ((this.minDate && end.isBefore(this.minDate, this.timepicker ? 'minute' : 'day')) 
-                  || (maxDate && start.isAfter(maxDate, this.timepicker ? 'minute' : 'day')))
-                    continue;
+                if ((this.minDate && end.isBefore(this.minDate, this.timepicker ? 'minute' : 'day'))
+                  || (maxDate && start.isAfter(maxDate, this.timepicker ? 'minute' : 'day'))) {
+                    if (this.showDisabled) {
+                        this.disabledRanges.push(range);
+                    } else {
+                        continue;
+                    }
+                }
 
                 //Support unicode chars in the range names.
                 var elem = document.createElement('textarea');
@@ -340,7 +353,11 @@
 
             var list = '<ul>';
             for (range in this.ranges) {
-                list += '<li data-range-key="' + range + '">' + range + '</li>';
+                if (this.disabledRanges.indexOf(range) > -1) {
+                    list += '<li data-range-key="' + range + '" class=\'disabled\'>' + range + '</li>';
+                } else {
+                    list += '<li data-range-key="' + range + '">' + range + '</li>';
+                }
             }
             if (this.showCustomRangeLabel) {
                 list += '<li data-range-key="' + this.locale.customRangeLabel + '">' + this.locale.customRangeLabel + '</li>';
@@ -423,7 +440,7 @@
         this.container.find('.ranges')
             .on('click.daterangepicker', 'button.applyBtn', $.proxy(this.clickApply, this))
             .on('click.daterangepicker', 'button.cancelBtn', $.proxy(this.clickCancel, this))
-            .on('click.daterangepicker', 'li', $.proxy(this.clickRange, this))
+            .on('click.daterangepicker', 'li:not(.disabled)', $.proxy(this.clickRange, this))
             .on('mouseenter.daterangepicker', 'li', $.proxy(this.hoverRange, this))
             .on('mouseleave.daterangepicker', 'li', $.proxy(this.updateFormInputs, this));
 
@@ -1524,7 +1541,7 @@
             this.container.find('input[name="daterangepicker_start"], input[name="daterangepicker_end"]').removeClass('active');
             $(e.target).addClass('active');
 
-            // Set the state such that if the user goes back to using a mouse, 
+            // Set the state such that if the user goes back to using a mouse,
             // the calendars are aware we're selecting the end of the range, not
             // the start. This allows someone to edit the end of a date range without
             // re-selecting the beginning, by clicking on the end date input then
