@@ -93,7 +93,7 @@
             .on('click.daterangepicker', '.daterangepicker_start_input,.daterangepicker_end_input', $.proxy(this.showCalendars, this))
             .on('change.daterangepicker', '.daterangepicker_start_input,.daterangepicker_end_input', $.proxy(this.inputsChanged, this))
             .on('keydown.daterangepicker', '.daterangepicker_start_input,.daterangepicker_end_input', $.proxy(this.inputsKeydown, this))
-            .on('click.daterangepicker', 'li', $.proxy(this.clickRange, this))
+            .on('click.daterangepicker', 'li:not(.disabled)', $.proxy(this.clickRange, this))
             .on('mouseenter.daterangepicker', 'li', $.proxy(this.enterRange, this))
             .on('mouseleave.daterangepicker', 'li', $.proxy(this.updateFormInputs, this));
 
@@ -131,6 +131,8 @@
             this.timePicker12Hour = true;
             this.autoApply = false;
             this.singleDatePicker = false;
+            this.disabledRanges = [];
+            this.showDisabled = false;
             this.ranges = {};
 
             this.opens = 'right';
@@ -302,6 +304,12 @@
                 }
             }
 
+            if (typeof options.showDisabled === 'boolean')
+                this.showDisabled = options.showDisabled;
+
+            if (typeof options.disabledRanges === 'object')
+                this.disabledRanges = options.disabledRanges.slice();
+
             var start, end, range;
 
             //if no start/end dates set, check if an input element contains initial values
@@ -365,7 +373,11 @@
                     // the start of the range is after the max (also if set) don't display this
                     // range option.
                     if ((this.minDate && end.isBefore(this.minDate)) || (this.maxDate && start.isAfter(this.maxDate))) {
-                        continue;
+                        if (this.showDisabled) {
+                            this.disabledRanges.push(range);
+                        } else {
+                            continue;
+                        }
                     }
 
                     this.ranges[range] = [start, end];
@@ -373,7 +385,11 @@
 
                 var list = '<ul>';
                 for (range in this.ranges) {
-                    list += '<li>' + range + '</li>';
+                    if (this.disabledRanges.indexOf(range) > -1) {
+                        list += '<li class=\'disabled\'>' + range + '</li>';
+                    } else {
+                        list += '<li>' + range + '</li>';
+                    }
                 }
                 list += '<li>' + this.locale.customRangeLabel + '</li>';
                 list += '</ul>';
