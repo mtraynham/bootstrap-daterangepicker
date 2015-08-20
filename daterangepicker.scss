@@ -110,6 +110,12 @@ $daterangepicker-ranges-active-border-size:   $daterangepicker-ranges-border-siz
 $daterangepicker-ranges-active-border-color:  $daterangepicker-ranges-bg-color !default;
 $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !default;
 
+$daterangepicker-ranges-disabled-color:          #bbb !default;
+$daterangepicker-ranges-disabled-bg-color:       $daterangepicker-ranges-bg-color !default;
+$daterangepicker-ranges-disabled-border-size:    $daterangepicker-ranges-border-size !default;
+$daterangepicker-ranges-disabled-border-color:   $daterangepicker-ranges-bg-color !default;
+$daterangepicker-ranges-disabled-border-radius:  $daterangepicker-border-radius !default;
+
 //
 // STYLESHEETS
 //
@@ -470,6 +476,13 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
       background-color: $daterangepicker-ranges-hover-bg-color;
       border: $daterangepicker-ranges-hover-border-size solid $daterangepicker-ranges-hover-border-color;
       color: $daterangepicker-ranges-hover-color;
+    }
+
+    &.disabled, &.disabled:hover {
+      background-color: $daterangepicker-ranges-disabled-bg-color;
+      border: $daterangepicker-ranges-disabled-border-size solid $daterangepicker-ranges-disabled-border-color;
+      color: $daterangepicker-ranges-disabled-color;
+      cursor: default;
     }
   }
 }
