@@ -129,15 +129,16 @@
                             <li><a href="#license">License</a></li>
                         </ul>
 
-                        <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                        <!-- DRP 300x250 -->
+                        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- DRP 336x280 -->
                         <ins class="adsbygoogle"
-                            style="display:inline-block;width:300px;height:250px"
-                            data-ad-client="ca-pub-9095657276960731"
-                            data-ad-slot="1761466995"></ins>
+                             style="display:inline-block;width:336px;height:280px"
+                             data-ad-client="ca-pub-9095657276960731"
+                             data-ad-slot="1626914594"></ins>
                         <script>
                         (adsbygoogle = window.adsbygoogle || []).push({});
                         </script>
+
                     </div>
 
                 </div>
@@ -437,7 +438,13 @@
 
                               <div class="checkbox">
                                 <label>
-                                  <input type="checkbox" id="linkedCalendars" checked="checked"> linked calendars
+                                  <input type="checkbox" id="linkedCalendars" checked="checked"> linkedCalendars
+                                </label>
+                              </div>
+
+                              <div class="checkbox">
+                                <label>
+                                  <input type="checkbox" id="autoUpdateInput" checked="checked"> autoUpdateInput
                                 </label>
                               </div>
 
@@ -524,9 +531,6 @@
                                 <code>dateLimit</code>: (object) The maximum span between the selected start and end dates. Can have any property you can add to a moment object (i.e. days, months)
                             </li>
                             <li>
-                                <code>timeZone</code>: (string or number) The timezone that will be used to display the startDate and endDate in the calendar. This may be a string such as "08</code>:00" or an offset in minutes from Greenwich Mean Time. Uses Moment.js #utcOffset, <a href="http://momentjs.com/docs/#/manipulating/utc-offset/">see the docs here</a> for more information. If the timeZone option is not set, the calendar will use the time zone set on the startDate that has been passed in through the options, if it has one. Defaults to the local time zone
-                            </li>
-                            <li>
                                 <code>showDropdowns</code>: (boolean) Show year and month select boxes above calendars to jump to a specific month and year
                             </li>
                             <li>
@@ -576,6 +580,16 @@
                             </li>
                             <li>
                                 <code>parentEl</code>: (string) jQuery selector of the parent element that the date range picker will be added to, if not provided this will be 'body'
+                            </li>
+                            <li>
+                                <code>isInvalidDate</code>: (function) A function that is passed each date in the two
+                                calendars before they are displayed, and may return true or false to indicate whether
+                                that date should be available for selection or not.
+                            </li>
+                            <li>
+                                <code>autoUpdateInput</code>: (boolean) Indicates whether the date range picker should
+                                automatically update the value of an <code>&lt;input&gt;</code> element it's attached to
+                                at initialization and when the selected dates change.
                             </li>
                         </ul>
 
